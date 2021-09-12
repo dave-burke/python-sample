@@ -22,29 +22,36 @@ capitals = {
 }
 
 # Generate 35 quiz files.
-for quizNum in range(1):
-    questions = list(capitals.keys())
-    random.shuffle(questions)
-    # TODO write quiz header
-    # TODO write answer sheet header
-    for i in range(len(questions)):
-        state = questions[i]
+for quizNum in range(1, 36):
+    states = list(capitals.keys())
+    random.shuffle(states)
+
+    quizFile = open(f'questions{quizNum}.txt','w')
+    quizFile.write('Name:\n\nDate:\n\nPeriod:\n\n')
+    quizFile.write(f'State capitals quiz (#{quizNum})'.center(80))
+    quizFile.write('\n\n')
+
+    answerFile = open(f'answers{quizNum}.txt','w')
+    answerFile.write(f'Answer key for quiz {quizNum}\n\n')
+
+    for i in range(len(states)):
+        state = states[i]
+        quizFile.write(f'{i + 1}. What is the capital of {state}?\n')
+
         capital = capitals[state]
 
-        answers = list(capitals.values())
-        answers.remove(capitals[state])
-        random.shuffle(answers)
-        answers = answers[:3]
-        answers.append(capital)
-        random.shuffle(answers)
+        answers = states.copy() # Don't change the main list we're iterating over
+        answers.remove(state) # Prevent duplicating the correct answer
+        answers = random.sample(answers, 3) # Pick 3 wrong answers
+        answers.append(capital) # Add in the correct answer
+        random.shuffle(answers) # Shuffle the answers
 
-        print(f"{i + 1}. {state}")
         letters = ["a", "b", "c", "d"]
-        for i in range(len(answers)):
-            if answers[i] == capital:
-                print(f"    {letters[i]}. {answers[i]}*")
-                # TODO write answer to answer
-            else:
-                print(f"    {letters[i]}. {answers[i]}")
-                # TODO write question to quiz
+        for j in range(len(answers)):
+            quizFile.write(f'\t{letters[j]}. {answers[j]}\n')
+            if answers[j] == capital:
+                answerFile.write(f'{i}. {letters[j]}\n')
+        quizFile.write('\n')
+    quizFile.close()
+    answerFile.close()
 
