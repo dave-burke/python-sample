@@ -18,6 +18,10 @@ if len(sys.argv) == 3 and command == 'save':
     print(f'saved clipboard as {key}')
 elif command == 'list':
     print(str(list(shelf.keys())))
+elif len(sys.argv) == 3 and command == 'delete':
+    key = sys.argv[2]
+    del shelf[key]
+    print(f'deleted "{key}"')
 elif command in shelf:
     pyperclip.copy(shelf[command])
     print(f'loaded {command}')
