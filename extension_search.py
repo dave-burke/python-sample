@@ -13,9 +13,11 @@ ext,source_dir,dest_dir = sys.argv[1:4]
 
 if not os.path.isdir(source_dir):
     print(f'{source_dir} is not a directory. 2nd arg must be a directory.')
+    sys.exit(1)
 
 if not os.path.isdir(dest_dir):
     print(f'{dest_dir} is not a directory. 3rd arg must be a directory.')
+    sys.exit(1)
 
 if not ext.startswith('.'):
     ext = '.' + ext
